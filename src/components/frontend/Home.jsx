@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { apiRequest } from '../../services/api';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 
@@ -17,14 +18,24 @@ const Home = () => {
       }, []);
 
     return (
-        <div>
-            {products.map((row) => (
-                <div key={row.id}>
-                <h3>{row.name}</h3>
-                <p>{row.price}</p>
-                <button>Add to Cart</button>
-                </div>
-            ))}
+        <div className="container mt-4">
+            <div className="row">
+                {products.map(item => (
+                    <div className="col-md-4 mb-4" key={item.id}>
+                        <Link to={`/products/${item.id}`}>
+                            <div className="card">
+                                <img src={item.image_path || '/path/to/default/image.jpg'} className="card-img-top" alt={item.name} />
+                                <div className="card-body">
+                                    <h5 className="card-title">{item.name}</h5>
+                                    <p className="card-text">{item.description}</p>
+                                    <p className="card-text"><strong>${item.price}</strong></p>
+                                    <Link to="/cart" className="btn btn-primary">Add to Cart</Link>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
